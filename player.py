@@ -3,4 +3,4 @@ import field
 
 
 class Player:
-    pass
+    def __init__(self):

@@ -3,7 +3,7 @@ import ships
 
 class Game:
     def __init__(self, screen):
-
+        player
 
 
 
