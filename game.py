@@ -1,6 +1,10 @@
+import ships
+
+
 class Game:
     def __init__(self, screen):
-        self.step = 1
+
+
 
 
     def next_step(self):
