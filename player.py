@@ -1,5 +1,5 @@
 import ships
-import field
+import enemy_field
 
 
 class Player:
