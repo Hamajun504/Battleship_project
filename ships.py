@@ -1,19 +1,22 @@
 class Ship:
+    def __init__(self):
+        pass
+
     def draw(self):
         pass
 
 
 class Single(Ship):
-    pass
+    length = 1
 
 
 class Double(Ship):
-    pass
+    length = 2
 
 
 class Triple(Ship):
-    pass
+    length = 3
 
 
 class Quadriple(Ship):
-    pass
+    length = 4

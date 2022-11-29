@@ -1,5 +1,5 @@
 class Game:
-    def __init__(self):
+    def __init__(self, screen):
         self.step = 1
 
 
