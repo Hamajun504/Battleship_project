@@ -1,13 +1,10 @@
 import player
-import ships
-import game
 import config
 import pygame
 
 
-
 class View:
-    def __init__(self, players, turn, screen):
+    def __init__(self, players: tuple[player.Player, player.Player], turn: int, screen: pygame.Surface):
         self.players = players
         self.turn = turn
         self.screen = screen
@@ -16,11 +13,11 @@ class View:
         self.grid.fill(config.WHITE)
         for i in range(11):
             pygame.draw.line(self.grid, config.GREY,
-                             (0, config.FIELD_RECT1[3] * i // 10), (config.FIELD_RECT1[2], config.FIELD_RECT1[3] * i // 10),
-                             2)
+                             (0, config.FIELD_RECT1[3] * i // 10),
+                             (config.FIELD_RECT1[2], config.FIELD_RECT1[3] * i // 10), 2)
             pygame.draw.line(self.grid, config.GREY,
-                             (config.FIELD_RECT1[2] * i // 10, 0), (config.FIELD_RECT1[2] * i // 10, config.FIELD_RECT1[3]),
-                             2)
+                             (config.FIELD_RECT1[2] * i // 10, 0),
+                             (config.FIELD_RECT1[2] * i // 10, config.FIELD_RECT1[3]), 2)
 
     def draw(self):
         self.screen.fill(config.WHITE)
