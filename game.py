@@ -8,10 +8,10 @@ import config
 class Game:
     def __init__(self, screen):
         self.screen = screen
-        self.view = view.View()
         self.players = (player.Player(), player.Player())
-        self.placing_stage = True
         self.turn = 1
+        self.view = view.View(self.players, self.turn, self.screen)
+        self.placing_stage = True
         self.clock = pygame.time.Clock()
         self.finished = False
         self.mouse_holding = (False, (0, 0))
@@ -36,11 +36,12 @@ class Game:
 
     def event_processing_in_placing_stage(self):
         for event in pygame.event.get():
-            if event == pygame.QUIT:
+            if event.type == pygame.QUIT:
                 self.finished = True
-            elif event == pygame.MOUSEBUTTONDOWN:
-                self.mouse_holding = (True, (event.pos[0], event.pos[0]))
-            elif event == pygame.MOUSEBUTTONUP:
+                break
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                self.mouse_holding = (True, (event.pos[0], event.pos[1]))
+            elif event.type == pygame.MOUSEBUTTONUP:
                 self.players[self.turn % 2].place(self.mouse_holding[1], event.pos)
                 self.mouse_holding = (False, (0, 0))
 

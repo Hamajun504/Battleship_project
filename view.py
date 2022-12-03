@@ -1,6 +1,5 @@
 import player
 import ships
-import enemy_field
 import game
 import config
 import pygame
@@ -11,19 +10,28 @@ class View:
     def __init__(self, players, turn, screen):
         self.players = players
         self.turn = turn
-        self.side = config.SCREEN_WIDTH * config.MU
-        self.indent = (config.SCREEN_HEIGHT - self.side*2)/3
-        self.window_pos = ([self.indent, self.indent, self.side, self.side],
-                           [self.side + self.indent * 2, self.indent, self.side, self.side])
         self.screen = screen
-        self.color = config.WHITE
-        self.my_field_screen = pygame.Surface((self.side, self.side))
-        self.enemy_field_screen = pygame.Surface((self.side, self.side))
 
+        self.grid = pygame.Surface((config.FIELD_RECT1[2] + 1, config.FIELD_RECT1[3] + 1))
+        self.grid.fill(config.WHITE)
+        for i in range(11):
+            pygame.draw.line(self.grid, config.GREY,
+                             (0, config.FIELD_RECT1[3] * i // 10), (config.FIELD_RECT1[2], config.FIELD_RECT1[3] * i // 10),
+                             2)
+            pygame.draw.line(self.grid, config.GREY,
+                             (config.FIELD_RECT1[2] * i // 10, 0), (config.FIELD_RECT1[2] * i // 10, config.FIELD_RECT1[3]),
+                             2)
 
-    def draw_fields(self):
-        pygame.draw.rect(self.my_field, self.color, self.window_pos[0], 5)
-        pygame.draw.rect(self.enemy_field, self.color, )
+    def draw(self):
+        self.screen.fill(config.WHITE)
+        self.screen.blit(self.grid, (config.FIELD_RECT1[0], config.FIELD_RECT1[1]))
+        self.screen.blit(self.grid, (config.FIELD_RECT2[0], config.FIELD_RECT2[1]))
+        pygame.display.update()
 
     def next_turn(self):
         self.turn += 1
+
+    def update_field_size(self):
+        # TODO
+        pass
+

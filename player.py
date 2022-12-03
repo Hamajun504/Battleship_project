@@ -1,19 +1,20 @@
 import ships
-import enemy_field
+import config
 
 
 class Player:
-    def __init__(self, pos):
+    def __init__(self):
         self.ships = []
-        self.field_shape = pos
+        self.field_shape = config.FIELD_RECT1
+        self.enemy_field = []
 
     def place(self, pos1, pos2):
-        x1 = (pos1 - self.field_shape[0]) * 10 // self.field_shape[2]
-        y1 = (pos1 - self.field_shape[1]) * 10 // self.field_shape[3]
-        x2 = (pos2 - self.field_shape[0]) * 10 // self.field_shape[2]
-        y2 = (pos2 - self.field_shape[1]) * 10 // self.field_shape[3]
+        x1 = (pos1[0] - self.field_shape[0]) * 10 // self.field_shape[2]
+        y1 = (pos1[1] - self.field_shape[1]) * 10 // self.field_shape[3]
+        x2 = (pos2[0] - self.field_shape[0]) * 10 // self.field_shape[2]
+        y2 = (pos2[1] - self.field_shape[1]) * 10 // self.field_shape[3]
         if x1 == x2 or y1 == y2:
-            length = abs(x1 - x2) + abs(y1 - y2)
+            length = abs(x1 - x2) + abs(y1 - y2) + 1
             if self.check_size(length):
                 self.ships.append(ships.Ship((x1, y1), (x2, y2)))
 
@@ -26,6 +27,7 @@ class Player:
         return num + length < 5
 
     def check_placing_end(self):
+        """ Возвращает True, если расстановка закончена """
         end = True
         for length in range(1, 5):
             num = 0
