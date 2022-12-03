@@ -40,7 +40,6 @@ class Game:
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 self.mouse_holding = (True, (event.pos[0], event.pos[1]))
             elif event.type == pygame.MOUSEBUTTONUP:
-                print("PLACING")
                 self.players[self.turn % 2].place(self.mouse_holding[1], event.pos)
                 self.mouse_holding = (False, (0, 0))
 
@@ -49,6 +48,7 @@ class Game:
             if event.type == pygame.QUIT:
                 self.finished = True
                 break
+
 
     def next_turn(self):
         self.turn += 1

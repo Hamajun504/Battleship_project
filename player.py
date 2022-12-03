@@ -13,10 +13,15 @@ class Player:
         y1 = (pos1[1] - self.field_shape[1]) * 10 // self.field_shape[3]
         x2 = (pos2[0] - self.field_shape[0]) * 10 // self.field_shape[2]
         y2 = (pos2[1] - self.field_shape[1]) * 10 // self.field_shape[3]
+        if self.ship_correct_placing_check(x1, x2, y1, y2):
+            self.ships.append(ships.Ship((x1, y1), (x2, y2)))
+
+    def ship_correct_placing_check(self, x1, x2, y1, y2):
         if x1 == x2 or y1 == y2:
             length = abs(x1 - x2) + abs(y1 - y2) + 1
-            if self.check_size(length):
-                self.ships.append(ships.Ship((x1, y1), (x2, y2)))
+            return self.check_size(length)
+        else:
+            return False
 
     def check_size(self, length):
         """ проверяет, что можно поставить ещё корабли длины length """
