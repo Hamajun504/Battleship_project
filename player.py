@@ -27,7 +27,7 @@ class Player:
         return num + length < 5
 
     def check_placing_end(self):
-        """ Возвращает True, если расстановка закончена """
+        """ возвращает True, если расстановка закончена """
         end = True
         for length in range(1, 5):
             num = 0

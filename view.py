@@ -26,6 +26,7 @@ class View:
         self.screen.fill(config.WHITE)
         self.screen.blit(self.grid, (config.FIELD_RECT1[0], config.FIELD_RECT1[1]))
         self.screen.blit(self.grid, (config.FIELD_RECT2[0], config.FIELD_RECT2[1]))
+        self.draw_ships()
         pygame.display.update()
 
     def next_turn(self):
@@ -35,3 +36,10 @@ class View:
         # TODO
         pass
 
+    def draw_ships(self):
+        for ship in self.players[self.turn % 2].ships:
+            for cell in ship.cells:
+                pygame.draw.rect(self.screen, config.DARK_GREEN,
+                                 (config.FIELD_RECT1[0] + cell[0] * config.FIELD_RECT1[2] // 10,
+                                  config.FIELD_RECT1[1] + cell[1] * config.FIELD_RECT1[3] // 10,
+                                  config.FIELD_RECT1[2] // 10, config.FIELD_RECT1[3] // 10))
