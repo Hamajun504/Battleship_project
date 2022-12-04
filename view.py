@@ -40,16 +40,16 @@ class View:
 
     def draw_ships(self):
         for ship in self.players[self.turn % 2].ships:
-            for cell in ship.cells:
+            for cell in ship.cells.keys():
                 pygame.draw.rect(self.screen, config.DARK_GREEN,
                                  (self.fields_pos[0][0] + cell[0] * self.field_size[0] // 10,
                                   self.fields_pos[0][1] + cell[1] * self.field_size[0] // 10,
                                   self.field_size[0] // 10, self.field_size[1] // 10))
 
     def draw_hit_ships_cells(self):
-        for cell in self.players[self.turn % 2].shoten_cells:
-            for ship in self.players[(self.turn + 1) % 2].ships:
-                if cell in ship.cells:
+        for ship in self.players[(self.turn + 1) % 2].ships:
+            for cell in ship.cells.keys():
+                if ship.cells[cell] == "dead":
                     pygame.draw.line(self.screen, config.RED,
                                      (self.fields_pos[1][0] + cell[0] * self.field_size[0] // 10,
                                       self.fields_pos[1][1] + cell[1] * self.field_size[1] // 10),

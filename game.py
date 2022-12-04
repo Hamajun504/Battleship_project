@@ -50,8 +50,18 @@ class Game:
             elif event.type == pygame.MOUSEBUTTONUP:
                 shot_done = self.players[self.turn % 2].shoot(event.pos)
                 if shot_done:
+                    self.damage_ship()
                     self.next_turn()
+
+    def damage_ship(self):
+        for ship in self.players[(self.turn + 1) % 2].ships:
+            for cell in ship.cells.keys():
+                if self.players[self.turn % 2].shoten_cells[-1] == cell:
+                    ship.cells[cell] = "dead"
+                    break
 
     def next_turn(self):
         self.turn += 1
         self.view.next_turn()
+
+

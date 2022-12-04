@@ -62,3 +62,4 @@ class Player:
 
     def field_shape_update(self):
         pass
+
