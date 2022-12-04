@@ -60,6 +60,5 @@ class Player:
         else:
             return False
 
-
     def field_shape_update(self):
         pass

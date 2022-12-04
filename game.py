@@ -1,4 +1,3 @@
-import ships
 import player
 import view
 import pygame
@@ -56,5 +55,3 @@ class Game:
     def next_turn(self):
         self.turn += 1
         self.view.next_turn()
-
-
