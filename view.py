@@ -3,27 +3,40 @@ import config
 import pygame
 
 
+
+
 class View:
     def __init__(self, players: tuple[player.Player, player.Player], turn: int, screen: pygame.Surface):
         self.players = players
         self.turn = turn
         self.screen = screen
+        self.my_field_screen = pygame.Surface((config.SIDE, config.SIDE))
+        self.enemy_field_screen = pygame.Surface((config.SIDE, config.SIDE))
+        self.grid = (config.SIDE - 12 * config.LINE_THICKNESS) // 10
+        self.my_field_screen.fill(config.WHITE)
+        self.enemy_field_screen.fill(config.WHITE)
+    def draw_field(self):
 
-        self.grid = pygame.Surface((config.FIELD_RECT1[2] + 1, config.FIELD_RECT1[3] + 1))
-        self.grid.fill(config.WHITE)
-        for i in range(11):
-            pygame.draw.line(self.grid, config.GREY,
-                             (0, config.FIELD_RECT1[3] * i // 10),
-                             (config.FIELD_RECT1[2], config.FIELD_RECT1[3] * i // 10), 2)
-            pygame.draw.line(self.grid, config.GREY,
-                             (config.FIELD_RECT1[2] * i // 10, 0),
-                             (config.FIELD_RECT1[2] * i // 10, config.FIELD_RECT1[3]), 2)
+        for i in range(12):
+            pygame.draw.line(self.my_field_screen, config.GREY,
+                             (0, self.grid * i),
+                             (config.SIDE, self.grid * i), 2)
+            pygame.draw.line(self.enemy_field_screen, config.GREY,
+                             (self.grid * i, 0),
+                             (self.grid * i, config.SIDE), 2)
+            pygame.draw.line(self.enemy_field_screen, config.GREY,
+                             (0, self.grid * i),
+                             (config.SIDE, self.grid * i), 2)
+            pygame.draw.line(self.my_field_screen, config.GREY,
+                             (self.grid * i, 0),
+                             (self.grid * i, config.SIDE), 2)
 
-    def draw(self):
+    def draw(self, mouse_holding):
         self.screen.fill(config.WHITE)
-        self.screen.blit(self.grid, (config.FIELD_RECT1[0], config.FIELD_RECT1[1]))
-        self.screen.blit(self.grid, (config.FIELD_RECT2[0], config.FIELD_RECT2[1]))
-        self.draw_ships()
+        self.draw_field()
+        self.screen.blit(self.my_field_screen, (config.IDENT, config.IDENT))
+        self.screen.blit(self.enemy_field_screen, (config.IDENT * 2 + config.SIDE, config.IDENT))
+        self.draw_ships(mouse_holding)
         pygame.display.update()
 
     def next_turn(self):
@@ -33,10 +46,13 @@ class View:
         # TODO
         pass
 
-    def draw_ships(self):
-        for ship in self.players[self.turn % 2].ships:
-            for cell in ship.cells:
-                pygame.draw.rect(self.screen, config.DARK_GREEN,
-                                 (config.FIELD_RECT1[0] + cell[0] * config.FIELD_RECT1[2] // 10,
-                                  config.FIELD_RECT1[1] + cell[1] * config.FIELD_RECT1[3] // 10,
-                                  config.FIELD_RECT1[2] // 10, config.FIELD_RECT1[3] // 10))
+    def draw_ships(self, mouse_holding):
+        self.mouse_holding = mouse_holding
+
+        if self.mouse_holding[0]:
+            pass
+        else:
+            for ship in self.players[self.turn % 2].ships:
+                for cell in ship.cells:
+                    pygame.draw.rect(self.my_field_screen, config.DARK_GREEN,
+                                     (cell[0], cell[1], self.grid, self.grid))

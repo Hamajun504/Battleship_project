@@ -5,14 +5,13 @@ import config
 class Player:
     def __init__(self):
         self.ships = []
-        self.field_shape = config.FIELD_RECT1
         self.enemy_field = []
 
     def place(self, pos1, pos2):
-        x1 = (pos1[0] - self.field_shape[0]) * 10 // self.field_shape[2]
-        y1 = (pos1[1] - self.field_shape[1]) * 10 // self.field_shape[3]
-        x2 = (pos2[0] - self.field_shape[0]) * 10 // self.field_shape[2]
-        y2 = (pos2[1] - self.field_shape[1]) * 10 // self.field_shape[3]
+        x1 = (pos1[0] - config.IDENT) * 10 // config.SIDE
+        y1 = (pos1[1] - config.IDENT) * 10 // config.SIDE
+        x2 = (pos2[0] - config.IDENT) * 10 // config.SIDE
+        y2 = (pos2[1] - config.IDENT) * 10 // config.SIDE
         if x1 == x2 or y1 == y2:
             length = abs(x1 - x2) + abs(y1 - y2) + 1
             if self.check_size(length):

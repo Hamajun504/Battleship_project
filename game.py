@@ -16,10 +16,10 @@ class Game:
         self.finished = False
         self.mouse_holding = (False, (0, 0))
 
-    def run(self):
+    def run(self, mouse_holding):
         while not self.finished:
             if self.placing_stage:
-                self.view.draw()
+                self.view.draw(mouse_holding)
                 self.clock.tick(config.FPS)
                 self.event_processing_in_placing_stage()
                 if self.players[self.turn % 2].check_placing_end():
@@ -28,7 +28,7 @@ class Game:
                         self.placing_stage = False
 
             else:
-                self.view.draw()
+                self.view.draw(mouse_holding)
                 self.event_processing_out_of_placing_stage()
                 self.clock.tick(config.FPS)
 
