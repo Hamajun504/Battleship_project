@@ -63,3 +63,14 @@ class Player:
     def field_shape_update(self):
         pass
 
+    def declare_ships_killed(self):
+        for ship in self.ships:
+            if ship.alive:
+                dead = True
+                for cell in ship.cells.values():
+                    if cell == "alive":
+                        dead = False
+                        break
+                if dead:
+                    ship.alive = False
+

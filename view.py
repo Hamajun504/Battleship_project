@@ -28,7 +28,7 @@ class View:
         self.screen.blit(self.grid, self.fields_pos[1])
         self.draw_ships()
         self.draw_hit_cells()
-        self.draw_hit_ships_cells()
+        self.draw_enemy_ships()
         pygame.display.update()
 
     def next_turn(self):
@@ -46,22 +46,29 @@ class View:
                                   self.fields_pos[0][1] + cell[1] * self.field_size[0] // 10,
                                   self.field_size[0] // 10, self.field_size[1] // 10))
 
-    def draw_hit_ships_cells(self):
+    def draw_enemy_ships(self):
         for ship in self.players[(self.turn + 1) % 2].ships:
-            for cell in ship.cells.keys():
-                if ship.cells[cell] == "dead":
-                    pygame.draw.line(self.screen, config.RED,
+            if ship.alive:
+                for cell in ship.cells.keys():
+                    if ship.cells[cell] == "dead":
+                        pygame.draw.line(self.screen, config.RED,
+                                         (self.fields_pos[1][0] + cell[0] * self.field_size[0] // 10,
+                                          self.fields_pos[1][1] + cell[1] * self.field_size[1] // 10),
+                                         (self.fields_pos[1][0] + (cell[0] + 1) * self.field_size[0] // 10,
+                                          self.fields_pos[1][1] + (cell[1] + 1) * self.field_size[1] // 10 + 1),
+                                         config.HIT_CROSS_LINE_WIDTH)
+                        pygame.draw.line(self.screen, config.RED,
+                                         (self.fields_pos[1][0] + (cell[0] + 1) * self.field_size[0] // 10,
+                                          self.fields_pos[1][1] + cell[1] * self.field_size[1] // 10),
+                                         (self.fields_pos[1][0] + cell[0] * self.field_size[0] // 10,
+                                          self.fields_pos[1][1] + (cell[1] + 1) * self.field_size[1] // 10),
+                                         config.HIT_CROSS_LINE_WIDTH)
+            else:
+                for cell in ship.cells.keys():
+                    pygame.draw.rect(self.screen, config.RED,
                                      (self.fields_pos[1][0] + cell[0] * self.field_size[0] // 10,
-                                      self.fields_pos[1][1] + cell[1] * self.field_size[1] // 10),
-                                     (self.fields_pos[1][0] + (cell[0] + 1) * self.field_size[0] // 10,
-                                      self.fields_pos[1][1] + (cell[1] + 1) * self.field_size[1] // 10 + 1),
-                                     config.HIT_CROSS_LINE_WIDTH)
-                    pygame.draw.line(self.screen, config.RED,
-                                     (self.fields_pos[1][0] + (cell[0] + 1) * self.field_size[0] // 10,
-                                      self.fields_pos[1][1] + cell[1] * self.field_size[1] // 10),
-                                     (self.fields_pos[1][0] + cell[0] * self.field_size[0] // 10,
-                                      self.fields_pos[1][1] + (cell[1] + 1) * self.field_size[1] // 10),
-                                     config.HIT_CROSS_LINE_WIDTH)
+                                      self.fields_pos[1][1] + cell[1] * self.field_size[1] // 10,
+                                      self.field_size[0] // 10, self.field_size[1] // 10))
 
     def draw_hit_cells(self):
         for cell in self.players[self.turn % 2].shoten_cells:

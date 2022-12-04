@@ -28,8 +28,8 @@ class Game:
 
             else:
                 self.view.draw()
-                self.event_processing_out_of_placing_stage()
                 self.clock.tick(config.FPS)
+                self.event_processing_out_of_placing_stage()
 
     def event_processing_in_placing_stage(self):
         for event in pygame.event.get():
@@ -51,6 +51,7 @@ class Game:
                 shot_done = self.players[self.turn % 2].shoot(event.pos)
                 if shot_done:
                     self.damage_ship()
+                    self.players[(self.turn + 1) % 2].declare_ships_killed()
                     self.next_turn()
 
     def damage_ship(self):
