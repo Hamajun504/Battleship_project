@@ -5,14 +5,15 @@ import config
 class Player:
     def __init__(self):
         self.ships = []
-        self.field_shape = config.FIELD_RECT1
-        self.enemy_field = []
+        self.field_shape = config.FIELD_SIZE
+        self.field_pos = config.FIELDS_POS
+        self.shoten_cells = []
 
     def place(self, pos1, pos2):
-        x1 = (pos1[0] - self.field_shape[0]) * 10 // self.field_shape[2]
-        y1 = (pos1[1] - self.field_shape[1]) * 10 // self.field_shape[3]
-        x2 = (pos2[0] - self.field_shape[0]) * 10 // self.field_shape[2]
-        y2 = (pos2[1] - self.field_shape[1]) * 10 // self.field_shape[3]
+        x1 = (pos1[0] - self.field_pos[0][0]) * 10 // self.field_shape[0]
+        y1 = (pos1[1] - self.field_pos[0][1]) * 10 // self.field_shape[1]
+        x2 = (pos2[0] - self.field_pos[0][0]) * 10 // self.field_shape[0]
+        y2 = (pos2[1] - self.field_pos[0][1]) * 10 // self.field_shape[1]
         if 0 <= x1 < 10 and 0 <= x2 < 10 and 0 <= y1 < 10 and 0 <= y2 < 10 and \
                 self.ship_correct_placing_check(x1, x2, y1, y2):
             self.ships.append(ships.Ship((x1, y1), (x2, y2)))

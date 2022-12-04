@@ -9,7 +9,7 @@ class View:
         self.turn = turn
         self.screen = screen
 
-        self.field_size = config.FIELD_SiZE
+        self.field_size = config.FIELD_SIZE
         self.fields_pos = config.FIELDS_POS
 
         self.grid = pygame.Surface((self.field_size[0] + 1, self.field_size[1] + 1))
@@ -40,6 +40,6 @@ class View:
         for ship in self.players[self.turn % 2].ships:
             for cell in ship.cells:
                 pygame.draw.rect(self.screen, config.DARK_GREEN,
-                                 (config.FIELD_RECT1[0] + cell[0] * config.FIELD_RECT1[2] // 10,
-                                  config.FIELD_RECT1[1] + cell[1] * config.FIELD_RECT1[3] // 10,
-                                  config.FIELD_RECT1[2] // 10, config.FIELD_RECT1[3] // 10))
+                                 (self.fields_pos[0][0] + cell[0] * self.field_size[0] // 10,
+                                  self.fields_pos[0][1] + cell[1] * self.field_size[0] // 10,
+                                  self.field_size[0] // 10, self.field_size[1] // 10))
