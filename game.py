@@ -52,7 +52,10 @@ class Game:
                 if shot_done:
                     self.damage_ship()
                     self.players[(self.turn + 1) % 2].declare_ships_killed()
-                    self.next_turn()
+                    if self.check_game_go_on():
+                        self.next_turn()
+                    else:
+                        print(f"Player {self.turn % 2 + 1} won")
 
     def damage_ship(self):
         for ship in self.players[(self.turn + 1) % 2].ships:
@@ -65,4 +68,9 @@ class Game:
         self.turn += 1
         self.view.next_turn()
 
+    def check_game_go_on(self):
+        for ship in self.players[(self.turn + 1) % 2].ships:
+            if ship.alive:
+                return True
+        return False
 
