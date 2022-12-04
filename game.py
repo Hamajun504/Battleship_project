@@ -49,7 +49,9 @@ class Game:
                 self.finished = True
                 break
             elif event.type == pygame.MOUSEBUTTONUP:
-                self.players[self.turn % 2].shoot(event.pos)
+                shot_done = self.players[self.turn % 2].shoot(event.pos)
+                if shot_done:
+                    self.next_turn()
 
     def next_turn(self):
         self.turn += 1

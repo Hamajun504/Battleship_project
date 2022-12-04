@@ -27,6 +27,7 @@ class View:
         self.screen.blit(self.grid, self.fields_pos[0])
         self.screen.blit(self.grid, self.fields_pos[1])
         self.draw_ships()
+        self.draw_enemy_field()
         pygame.display.update()
 
     def next_turn(self):
@@ -43,3 +44,11 @@ class View:
                                  (self.fields_pos[0][0] + cell[0] * self.field_size[0] // 10,
                                   self.fields_pos[0][1] + cell[1] * self.field_size[0] // 10,
                                   self.field_size[0] // 10, self.field_size[1] // 10))
+
+    def draw_enemy_field(self):
+        for cell in self.players[self.turn % 2].shoten_cells:
+            pygame.draw.circle(self.screen, config.BLACK,
+                               (self.fields_pos[1][0] + cell[0] * self.field_size[0] // 10 + self.field_size[0] // 20,
+                                self.fields_pos[1][1] + cell[1] * self.field_size[1] // 10 + self.field_size[1] // 20),
+                               config.SHOOT_TRACE_RADIUS)
+
