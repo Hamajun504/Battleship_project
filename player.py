@@ -9,6 +9,7 @@ class Player:
         self.field_pos = config.FIELDS_POS
         self.shoten_cells = []
 
+
     def place(self, pos1, pos2):
         x1 = (pos1[0] - self.field_pos[0][0]) * 10 // self.field_shape[0]
         y1 = (pos1[1] - self.field_pos[0][1]) * 10 // self.field_shape[1]
@@ -21,7 +22,7 @@ class Player:
         if (x1 == x2 or y1 == y2) and \
                 (0 <= x1 < 10 and 0 <= x2 < 10 and 0 <= y1 < 10 and 0 <= y2 < 10):
             length = abs(x1 - x2) + abs(y1 - y2) + 1
-            return self.check_size(length)
+            return self.check_size(length) and self.check_position(x1, x2, y1, y2)
         else:
             return False
 
@@ -73,4 +74,17 @@ class Player:
                         break
                 if dead:
                     ship.alive = False
+
+    def check_position(self, x1, x2, y1, y2):
+        correct = 1
+        for ship in self.ships:
+            for coords in ship.cells.keys():
+                if( ((coords[0] - x1)**2 + (coords[1] - y1)**2) <= 2 or
+                        ((coords[0] - x2)**2 + (coords[1] - y2)**2) <= 2):
+                    correct *= 0
+        return correct
+
+
+
+
 
