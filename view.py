@@ -22,14 +22,19 @@ class View:
                              (self.field_size[0] * i // 10, 0),
                              (self.field_size[0] * i // 10, self.field_size[1]), 2)
 
-    def draw(self):
-        self.screen.fill(config.WHITE)
-        self.screen.blit(self.grid, self.fields_pos[0])
-        self.screen.blit(self.grid, self.fields_pos[1])
-        self.draw_ships()
-        self.draw_hit_cells()
-        self.draw_enemy_ships()
-        self.draw_numbers_and_letters()
+    def draw(self, status):
+        if status['neutral_screen']:
+            self.write_change_turn()
+        else:
+            self.screen.fill(config.WHITE)
+            self.screen.blit(self.grid, self.fields_pos[0])
+            self.screen.blit(self.grid, self.fields_pos[1])
+            self.draw_ships()
+            self.draw_hit_cells()
+            self.draw_enemy_ships()
+            self.draw_numbers_and_letters()
+            if status['turn_ended']:
+                self.write_end_turn()
         pygame.display.update()
 
     def next_turn(self):
@@ -79,18 +84,30 @@ class View:
                                config.SHOOT_TRACE_RADIUS)
 
     def draw_numbers_and_letters(self):
-        font1 = pygame.font.SysFont('freesanbold.ttf', config.FONT_SIZE)
         letters = {1: 'a', 2: 'b', 3: 'c', 4: 'd', 5: 'e', 6: 'f', 7: 'g', 8: 'h', 9: 'i', 10: 'j'}
 
         for x in letters.keys():
-            letters_text = font1.render(letters[x], False, config.BLACK)
+            letters_text = config.font_axis.render(letters[x], False, config.BLACK)
             for i in range(2):
                 self.screen.blit(letters_text, (config.FIELDS_POS[i][0] + int(config.GRID*(x - 0.5)),
-                                            config.FIELDS_POS[0][1] - config.FONT_SIZE))
+                                            config.FIELDS_POS[0][1] - config.FONT_AXIS_SIZE))
 
         for x in range(10):
-            numbers_text = font1.render(str(x+1), False, config.BLACK)
+            numbers_text = config.font_axis.render(str(x+1), False, config.BLACK)
             for i in range(2):
-                self.screen.blit(numbers_text, (config.FIELDS_POS[i][0] - config.FONT_SIZE,
+                self.screen.blit(numbers_text, (config.FIELDS_POS[i][0] - config.FONT_AXIS_SIZE,
                                                 config.FIELDS_POS[0][1] + int(config.GRID*(x + 0.5))))
+
+    def write_end_turn(self):
+        text_end_turn = 'Ваш ход окончен. Нажмите Enter, чтобы передать ход следующему игроку.'
+        text_pos = ((config.SCREEN_WIDTH - len(text_end_turn))//2,
+                    (config.SCREEN_HEIGHT - config.FIELD_SIZE[0] - config.FIELDS_POS[0][1] - config.FONT_HELP_TEXT_SIZE) // 2)
+        self.screen.blit(config.font_axis.render(text_end_turn, False, config.BLACK), text_pos)
+
+
+    def write_change_turn(self):
+        text_change_turn = 'Ход игрока №' + str(self.turn // 2 + 1) + 'окончен. Нажмите Enter, чтобы начать ход игрока №' + str(self.turn // 2)
+        text_pos = ((config.SCREEN_WIDTH - len(text_change_turn))//2, (config.SCREEN_HEIGHT - config.FONT_HELP_TEXT_SIZE)//2)
+        self.screen.fill(config.WHITE)
+        self.screen.blit(config.font_axis.render(text_change_turn, False, config.BLACK), text_pos)
 

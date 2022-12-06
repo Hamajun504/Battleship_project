@@ -1,3 +1,6 @@
+import pygame
+pygame.font.init()
+
 FPS = 24
 SCREEN_HEIGHT = 600
 SCREEN_WIDTH = 1000
@@ -11,8 +14,10 @@ FIELDS_POS = ((IDENT, IDENT), (IDENT * 2 + SIDE, IDENT))
 GRID = int(FIELD_SIZE[0]//10)
 
 NU = 0.7 #соотношение между стороной клетки и размером шрифта
-FONT_SIZE = int(GRID*NU)
-
+FONT_AXIS_SIZE = int(GRID*NU)
+FONT_HELP_TEXT_SIZE = 50
+font_axis = pygame.font.SysFont('freesanbold.ttf', FONT_AXIS_SIZE)
+font_help_text = pygame.font.SysFont('freesanbold.ttf', FONT_HELP_TEXT_SIZE)
 
 
 SHOOT_TRACE_RADIUS = 5
