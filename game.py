@@ -23,7 +23,7 @@ class Game:
                 self.event_processing_in_placing_stage()
                 if self.players[self.turn % 2].check_placing_end() and not self.status['neutral_screen']:
                     self.end_turn()
-                    if self.turn == 3:
+                    if self.turn == 2:
                         self.status['placing_stage'] = False
 
             else:
@@ -44,38 +44,36 @@ class Game:
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     if self.status['turn_ended']:
-                        print("AAAAAAAAA")
+                        print("FFFFFFF")
                         self.status['neutral_screen'] = True
                         self.status['turn_ended'] = False
                     elif self.status['neutral_screen']:
-                        print("BBBBBBBBBB")
                         self.start_turn()
-
-
 
     def event_processing_out_of_placing_stage(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.status['finished'] = True
                 break
-            elif event.type == pygame.MOUSEBUTTONUP:
+            elif event.type == pygame.MOUSEBUTTONUP and not self.status['turn_ended']:
                 shot_done = self.players[self.turn % 2].shoot(event.pos)
                 if shot_done:
                     self.damage_ship()
                     self.players[(self.turn + 1) % 2].declare_ships_killed()
                     self.players[self.turn % 2].mark_cells_near_destroyed_ship(self.players[(self.turn + 1) % 2].ships)
                     if self.check_game_go_on():
-                        self.start_turn()
+                        self.end_turn()
                     else:
                         print(f"Player {self.turn % 2 + 1} won")
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     if self.status['turn_ended']:
-                        self.view.write_change_turn()
+                        print("AAAAAAA")
                         self.status['neutral_screen'] = True
                         self.status['turn_ended'] = False
-                    if self.status['neutral_screen']:
-                        self.turn += 1
+                    elif self.status['neutral_screen']:
+                        self.start_turn()
+                    break
 
     def damage_ship(self):
         for ship in self.players[(self.turn + 1) % 2].ships:
@@ -91,6 +89,7 @@ class Game:
         self.turn += 1
         self.view.next_turn()
         self.status['neutral_screen'] = False
+        self.status['turn_ended'] = False
 
 
     def check_game_go_on(self):
