@@ -4,6 +4,7 @@ import game
 
 
 pygame.init()
+pygame.font.init()
 screen = pygame.display.set_mode((config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
 g = game.Game(screen)
 g.run()

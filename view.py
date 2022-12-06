@@ -29,6 +29,7 @@ class View:
         self.draw_ships()
         self.draw_hit_cells()
         self.draw_enemy_ships()
+        self.draw_numbers_and_letters()
         pygame.display.update()
 
     def next_turn(self):
@@ -76,4 +77,20 @@ class View:
                                (self.fields_pos[1][0] + cell[0] * self.field_size[0] // 10 + self.field_size[0] // 20,
                                 self.fields_pos[1][1] + cell[1] * self.field_size[1] // 10 + self.field_size[1] // 20),
                                config.SHOOT_TRACE_RADIUS)
+
+    def draw_numbers_and_letters(self):
+        font1 = pygame.font.SysFont('freesanbold.ttf', config.FONT_SIZE)
+        letters = {1: 'a', 2: 'b', 3: 'c', 4: 'd', 5: 'e', 6: 'f', 7: 'g', 8: 'h', 9: 'i', 10: 'j'}
+
+        for x in letters.keys():
+            letters_text = font1.render(letters[x], False, config.BLACK)
+            for i in range(2):
+                self.screen.blit(letters_text, (config.FIELDS_POS[i][0] + int(config.GRID*(x - 0.5)),
+                                            config.FIELDS_POS[0][1] - config.FONT_SIZE))
+
+        for x in range(10):
+            numbers_text = font1.render(str(x+1), False, config.BLACK)
+            for i in range(2):
+                self.screen.blit(numbers_text, (config.FIELDS_POS[i][0] - config.FONT_SIZE,
+                                                config.FIELDS_POS[0][1] + int(config.GRID*(x + 0.5))))
 
