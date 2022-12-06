@@ -9,7 +9,6 @@ class Player:
         self.field_pos = config.FIELDS_POS
         self.shoten_cells = []
 
-
     def place(self, pos1, pos2):
         x1 = (pos1[0] - self.field_pos[0][0]) * 10 // self.field_shape[0]
         y1 = (pos1[1] - self.field_pos[0][1]) * 10 // self.field_shape[1]
@@ -79,12 +78,20 @@ class Player:
         correct = 1
         for ship in self.ships:
             for coords in ship.cells.keys():
-                if( ((coords[0] - x1)**2 + (coords[1] - y1)**2) <= 2 or
-                        ((coords[0] - x2)**2 + (coords[1] - y2)**2) <= 2):
+                if (((coords[0] - x1) ** 2 + (coords[1] - y1) ** 2) <= 2 or
+                        ((coords[0] - x2) ** 2 + (coords[1] - y2) ** 2) <= 2):
                     correct *= 0
         return correct
 
-
-
-
-
+    def mark_cells_near_destroyed_ship(self, ships):
+        for ship in ships:
+            if not ship.alive:
+                near_points = set()
+                for cell in ship.cells.keys():
+                    for i in range(-1, 2):
+                        for j in range(-1, 2):
+                            if 0 <= cell[0] + i <= 9 and 0 <= cell[1] + j <= 9:
+                                near_points.add((cell[0] + i, cell[1] + j))
+                for cell in near_points:
+                    if cell not in self.shoten_cells:
+                        self.shoten_cells.append(cell)
