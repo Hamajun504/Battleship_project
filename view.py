@@ -100,14 +100,13 @@ class View:
 
     def write_end_turn(self):
         text_end_turn = 'Ваш ход окончен. Нажмите Enter, чтобы передать ход следующему игроку.'
-        text_pos = ((config.SCREEN_WIDTH - len(text_end_turn))//2,
-                    (config.SCREEN_HEIGHT - config.FIELD_SIZE[0] - config.FIELDS_POS[0][1] - config.FONT_HELP_TEXT_SIZE) // 2)
-        self.screen.blit(config.font_axis.render(text_end_turn, False, config.BLACK), text_pos)
+        text_pos = (100, config.SCREEN_HEIGHT - (config.SCREEN_HEIGHT - config.SIDE - config.IDENT) // 2)
+        self.screen.blit(config.font_help_text.render(text_end_turn, False, config.BLACK), text_pos)
 
 
     def write_change_turn(self):
-        text_change_turn = 'Ход игрока №' + str(self.turn // 2 + 1) + 'окончен. Нажмите Enter, чтобы начать ход игрока №' + str(self.turn // 2)
-        text_pos = ((config.SCREEN_WIDTH - len(text_change_turn))//2, (config.SCREEN_HEIGHT - config.FONT_HELP_TEXT_SIZE)//2)
+        text_change_turn = 'Ход игрока ' + str(self.turn // 2 + 1) + ' окончен. Нажмите Enter, чтобы начать ход игрока ' \
+                           + str(self.turn // 2 + 2)
+        text_pos = (150, config.SCREEN_HEIGHT//2)
         self.screen.fill(config.WHITE)
-        self.screen.blit(config.font_axis.render(text_change_turn, False, config.BLACK), text_pos)
-
+        self.screen.blit(config.font_help_text.render(text_change_turn, False, config.BLACK), text_pos)

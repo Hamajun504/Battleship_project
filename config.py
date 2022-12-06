@@ -15,7 +15,7 @@ GRID = int(FIELD_SIZE[0]//10)
 
 NU = 0.7 #соотношение между стороной клетки и размером шрифта
 FONT_AXIS_SIZE = int(GRID*NU)
-FONT_HELP_TEXT_SIZE = 50
+FONT_HELP_TEXT_SIZE = 30
 font_axis = pygame.font.SysFont('freesanbold.ttf', FONT_AXIS_SIZE)
 font_help_text = pygame.font.SysFont('freesanbold.ttf', FONT_HELP_TEXT_SIZE)
 

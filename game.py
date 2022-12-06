@@ -36,15 +36,14 @@ class Game:
             if event.type == pygame.QUIT:
                 self.status['finished'] = True
                 break
-            elif event.type == pygame.MOUSEBUTTONDOWN:
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 self.mouse_holding = (True, (event.pos[0], event.pos[1]))
-            elif event.type == pygame.MOUSEBUTTONUP:
+            elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 self.players[self.turn % 2].place(self.mouse_holding[1], event.pos)
                 self.mouse_holding = (False, (0, 0))
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
+                if event.key == pygame.K_RETURN:
                     if self.status['turn_ended']:
-                        print("FFFFFFF")
                         self.status['neutral_screen'] = True
                         self.status['turn_ended'] = False
                     elif self.status['neutral_screen']:
@@ -55,7 +54,7 @@ class Game:
             if event.type == pygame.QUIT:
                 self.status['finished'] = True
                 break
-            elif event.type == pygame.MOUSEBUTTONUP and not self.status['turn_ended']:
+            elif event.type == pygame.MOUSEBUTTONUP and event.button == 1 and not self.status['turn_ended']:
                 shot_done = self.players[self.turn % 2].shoot(event.pos)
                 if shot_done:
                     self.damage_ship()
@@ -68,7 +67,6 @@ class Game:
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     if self.status['turn_ended']:
-                        print("AAAAAAA")
                         self.status['neutral_screen'] = True
                         self.status['turn_ended'] = False
                     elif self.status['neutral_screen']:
