@@ -52,6 +52,7 @@ class Game:
                     elif self.status['neutral_screen']:
                         self.start_turn()
                 elif event.key == pygame.K_SPACE:
+                    self.players[self.turn % 2].ships = []
                     self.players[self.turn % 2].auto_placing()
 
     def event_processing_out_of_placing_stage(self):
