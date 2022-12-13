@@ -64,8 +64,9 @@ class Game:
                     self.damage_ship()
                     self.players[(self.turn + 1) % 2].declare_ships_killed()
                     self.players[self.turn % 2].mark_cells_near_destroyed_ship(self.players[(self.turn + 1) % 2].ships)
-                    if self.check_game_go_on() and not self.status['hit']:
-                        self.end_turn()
+                    if self.check_game_go_on():
+                        if not self.status['hit']:
+                            self.end_turn()
                     else:
                         self.status['game_ended'] = True
             elif event.type == pygame.KEYDOWN:

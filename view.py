@@ -114,6 +114,6 @@ class View:
 
     def write_win(self, status):
         self.screen.fill(config.WHITE)
-        text_win = 'Игрок ' + str(status['winner']) + 'выиграл'
-        text_pos = (150, config.SCREEN_HEIGHT // 2)
+        text_win = 'Игрок ' + str(status['winner']) + ' выиграл'
+        text_pos = (400, config.SCREEN_HEIGHT // 2)
         self.screen.blit(config.font_help_text.render(text_win, False, config.BLACK), text_pos)
