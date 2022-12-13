@@ -12,7 +12,8 @@ class Game:
         self.view = view.View(self.players, self.turn, self.screen)
         self.clock = pygame.time.Clock()
         self.mouse_holding = (False, (0, 0))
-        self.status = {'placing_stage': True, 'finished': False, 'turn_ended': False, 'neutral_screen': False, 'hit': False}
+        self.status = {'placing_stage': True, 'finished': False, 'turn_ended': False, 'neutral_screen': False,
+                       'hit': False, 'game_ended': False, 'winner': 0}
 
     def run(self):
         """ Основной цикл """
@@ -50,6 +51,8 @@ class Game:
                         self.status['turn_ended'] = False
                     elif self.status['neutral_screen']:
                         self.start_turn()
+                elif event.key == pygame.K_SPACE:
+                    self.players[self.turn % 2].auto_placing()
 
     def event_processing_out_of_placing_stage(self):
         """ Обработка событий вне стадии расстановки кораблей"""
@@ -63,10 +66,11 @@ class Game:
                     self.damage_ship()
                     self.players[(self.turn + 1) % 2].declare_ships_killed()
                     self.players[self.turn % 2].mark_cells_near_destroyed_ship(self.players[(self.turn + 1) % 2].ships)
-                    if self.check_game_go_on() and not self.status['hit']:
-                        self.end_turn()
+                    if self.check_game_go_on():
+                        if not self.status['hit']:
+                            self.end_turn()
                     else:
-                        print(f"Player {self.turn % 2 + 1} won")
+                        self.status['game_ended'] = True
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     if self.status['turn_ended']:
@@ -102,5 +106,8 @@ class Game:
         for ship in self.players[(self.turn + 1) % 2].ships:
             if ship.alive:
                 return True
+        self.status['winner'] = self.turn % 2
         return False
+
+
 

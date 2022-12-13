@@ -1,6 +1,6 @@
 import ships
 import config
-
+import random
 
 class Player:
     def __init__(self):
@@ -103,3 +103,29 @@ class Player:
                 for cell in near_points:
                     if cell not in self.shoten_cells:
                         self.shoten_cells.append(cell)
+
+    def auto_ship(self, n):
+        desk = [(x, y) for x in range(10) for y in range(10)]
+        random.shuffle(desk)
+        for i in range(100):
+            direct = random.choice([1, -1])
+            if direct == 1:
+                if self.ship_correct_placing_check(desk[i][0], desk[i][0] + n - 1, desk[i][1], desk[i][1]):
+                    self.ships.append(ships.Ship((desk[i][0], desk[i][1]), (desk[i][0] + n - 1, desk[i][1])))
+                    break
+            else:
+                if self.ship_correct_placing_check(desk[i][0], desk[i][0], desk[i][1], desk[i][1] + n - 1):
+                    self.ships.append(ships.Ship((desk[i][0], desk[i][1]), (desk[i][0], desk[i][1] + n - 1)))
+                    break
+
+    def auto_placing(self):
+        self.auto_ship(4)
+        self.auto_ship(3)
+        self.auto_ship(3)
+        self.auto_ship(2)
+        self.auto_ship(2)
+        self.auto_ship(2)
+        self.auto_ship(1)
+        self.auto_ship(1)
+        self.auto_ship(1)
+        self.auto_ship(1)
