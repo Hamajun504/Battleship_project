@@ -105,8 +105,10 @@ class View:
 
 
     def write_change_turn(self):
-        text_change_turn = 'Ход игрока ' + str(self.turn // 2 + 1) + ' окончен. Нажмите Enter, чтобы начать ход игрока ' \
-                           + str(self.turn // 2 + 2)
+        if self.turn % 2 == 0:
+            text_change_turn = 'Ход игрока 2 окончен. Нажмите Enter, чтобы начать ход игрока 1'
+        else:
+            text_change_turn = 'Ход игрока 1 окончен. Нажмите Enter, чтобы начать ход игрока 2'
         text_pos = (150, config.SCREEN_HEIGHT//2)
         self.screen.fill(config.WHITE)
         self.screen.blit(config.font_help_text.render(text_change_turn, False, config.BLACK), text_pos)
