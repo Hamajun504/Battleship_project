@@ -2,7 +2,7 @@
 
 class Ship:
     def __init__(self, pos_begin, pos_end):
-        self.cells = {}
+        self.cells = {}     #словарь с ключами - координатами клеток корабля, значениями - статусами клеток
         self.alive = True
         self.length = abs(pos_begin[0] - pos_end[0]) + abs(pos_begin[1] - pos_end[1]) + 1
 

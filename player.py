@@ -8,8 +8,12 @@ class Player:
         self.field_shape = config.FIELD_SIZE
         self.field_pos = config.FIELDS_POS
         self.shoten_cells = []
+        self.success_hit = False
 
     def place(self, pos1, pos2):
+        """
+        Размещает корабль с экранными координатами концов pos1, pos2
+        """
         x1 = (pos1[0] - self.field_pos[0][0]) * 10 // self.field_shape[0]
         y1 = (pos1[1] - self.field_pos[0][1]) * 10 // self.field_shape[1]
         x2 = (pos2[0] - self.field_pos[0][0]) * 10 // self.field_shape[0]
@@ -75,6 +79,10 @@ class Player:
                     ship.alive = False
 
     def check_position(self, x1, x2, y1, y2):
+        """
+        Возвращает True, если корабль с данными координатами концов (x1, y1), (x2, y2)
+        не расположен слишком близко к другому кораблю
+        """
         correct = 1
         for ship in self.ships:
             for coords in ship.cells.keys():

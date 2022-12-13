@@ -16,6 +16,7 @@ class Game:
                        'hit': False, 'game_ended': False, 'winner': 0}
 
     def run(self):
+        """ Основной цикл """
         while not self.status['finished']:
             if self.status['placing_stage']:
                 self.view.draw(self.status)
@@ -33,6 +34,7 @@ class Game:
                 self.event_processing_out_of_placing_stage()
 
     def event_processing_in_placing_stage(self):
+        """ Обработка событий в стадии расстановки кораблей """
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.status['finished'] = True
@@ -51,6 +53,7 @@ class Game:
                         self.start_turn()
 
     def event_processing_out_of_placing_stage(self):
+        """ Обработка событий вне стадии расстановки кораблей"""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.status['finished'] = True
@@ -75,6 +78,7 @@ class Game:
                     break
 
     def damage_ship(self):
+        """ Проверка попаданий при выстреле, меняет статус 'hit' """
         self.status['hit'] = False
         for ship in self.players[(self.turn + 1) % 2].ships:
             for cell in ship.cells.keys():
@@ -94,8 +98,8 @@ class Game:
         self.status['neutral_screen'] = False
         self.status['turn_ended'] = False
 
-
     def check_game_go_on(self):
+        """ Проверка неокончания игры по причине победы """
         for ship in self.players[(self.turn + 1) % 2].ships:
             if ship.alive:
                 return True
