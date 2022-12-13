@@ -12,7 +12,7 @@ class Game:
         self.view = view.View(self.players, self.turn, self.screen)
         self.clock = pygame.time.Clock()
         self.mouse_holding = (False, (0, 0))
-        self.status = {'placing_stage': True, 'finished': False, 'turn_ended': False, 'neutral_screen': False}
+        self.status = {'placing_stage': True, 'finished': False, 'turn_ended': False, 'neutral_screen': False, 'hit': False}
 
     def run(self):
         while not self.status['finished']:
@@ -60,7 +60,7 @@ class Game:
                     self.damage_ship()
                     self.players[(self.turn + 1) % 2].declare_ships_killed()
                     self.players[self.turn % 2].mark_cells_near_destroyed_ship(self.players[(self.turn + 1) % 2].ships)
-                    if self.check_game_go_on():
+                    if self.check_game_go_on() and not self.status['hit']:
                         self.end_turn()
                     else:
                         print(f"Player {self.turn % 2 + 1} won")
@@ -74,11 +74,15 @@ class Game:
                     break
 
     def damage_ship(self):
+        self.status['hit'] = False
         for ship in self.players[(self.turn + 1) % 2].ships:
             for cell in ship.cells.keys():
                 if self.players[self.turn % 2].shoten_cells[-1] == cell:
                     ship.cells[cell] = "dead"
+                    self.status['hit'] = True
                     break
+
+
 
     def end_turn(self):
         self.status['turn_ended'] = True
