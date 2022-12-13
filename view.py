@@ -40,10 +40,6 @@ class View:
     def next_turn(self):
         self.turn += 1
 
-    def update_field_size(self):
-        # TODO
-        pass
-
     def draw_ships(self):
         for ship in self.players[self.turn % 2].ships:
             for cell in ship.cells.keys():
@@ -99,12 +95,13 @@ class View:
                                                 config.FIELDS_POS[0][1] + int(config.GRID*(x + 0.5))))
 
     def write_end_turn(self):
+        """ Текст на экране при окончания хода """
         text_end_turn = 'Ваш ход окончен. Нажмите Enter, чтобы передать ход следующему игроку.'
         text_pos = (100, config.SCREEN_HEIGHT - (config.SCREEN_HEIGHT - config.SIDE - config.IDENT) // 2)
         self.screen.blit(config.font_help_text.render(text_end_turn, False, config.BLACK), text_pos)
 
-
     def write_change_turn(self):
+        """ Текст на нейтральном экране """
         if self.turn % 2 == 0:
             text_change_turn = 'Ход игрока 2 окончен. Нажмите Enter, чтобы начать ход игрока 1'
         else:
