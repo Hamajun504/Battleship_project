@@ -25,6 +25,8 @@ class View:
     def draw(self, status):
         if status['neutral_screen']:
             self.write_change_turn()
+        elif status['game_ended']:
+            self.write_win(status)
         else:
             self.screen.fill(config.WHITE)
             self.screen.blit(self.grid, self.fields_pos[0])
@@ -103,7 +105,6 @@ class View:
         text_pos = (100, config.SCREEN_HEIGHT - (config.SCREEN_HEIGHT - config.SIDE - config.IDENT) // 2)
         self.screen.blit(config.font_help_text.render(text_end_turn, False, config.BLACK), text_pos)
 
-
     def write_change_turn(self):
         if self.turn % 2 == 0:
             text_change_turn = 'Ход игрока 2 окончен. Нажмите Enter, чтобы начать ход игрока 1'
@@ -112,3 +113,9 @@ class View:
         text_pos = (150, config.SCREEN_HEIGHT//2)
         self.screen.fill(config.WHITE)
         self.screen.blit(config.font_help_text.render(text_change_turn, False, config.BLACK), text_pos)
+
+    def write_win(self, status):
+        self.screen.fill(config.WHITE)
+        text_win = 'Игрок ' + str(status['winner']) + 'выиграл'
+        text_pos = (150, config.SCREEN_HEIGHT // 2)
+        self.screen.blit(config.font_help_text.render(text_win, False, config.BLACK), text_pos)
