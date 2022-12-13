@@ -87,14 +87,14 @@ class View:
         for x in letters.keys():
             letters_text = config.font_axis.render(letters[x], False, config.BLACK)
             for i in range(2):
-                self.screen.blit(letters_text, (config.FIELDS_POS[i][0] + int(config.GRID*(x - 0.5)),
-                                            config.FIELDS_POS[0][1] - config.FONT_AXIS_SIZE))
+                self.screen.blit(letters_text, (config.FIELDS_POS[i][0] + int(config.GRID * (x - 0.5)),
+                                                config.FIELDS_POS[0][1] - config.FONT_AXIS_SIZE - 10))
 
         for x in range(10):
-            numbers_text = config.font_axis.render(str(x+1), False, config.BLACK)
+            numbers_text = config.font_axis.render(str(x + 1), False, config.BLACK)
             for i in range(2):
                 self.screen.blit(numbers_text, (config.FIELDS_POS[i][0] - config.FONT_AXIS_SIZE,
-                                                config.FIELDS_POS[0][1] + int(config.GRID*(x + 0.5))))
+                                                config.FIELDS_POS[0][1] + int(config.GRID * (x + 0.5)) - 10))
 
     def write_end_turn(self):
         """ Текст на экране при окончания хода """
@@ -108,7 +108,7 @@ class View:
             text_change_turn = 'Ход игрока 2 окончен. Нажмите Enter, чтобы начать ход игрока 1'
         else:
             text_change_turn = 'Ход игрока 1 окончен. Нажмите Enter, чтобы начать ход игрока 2'
-        text_pos = (150, config.SCREEN_HEIGHT//2)
+        text_pos = (150, config.SCREEN_HEIGHT // 2)
         self.screen.fill(config.WHITE)
         self.screen.blit(config.font_help_text.render(text_change_turn, False, config.BLACK), text_pos)
 

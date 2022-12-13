@@ -107,7 +107,7 @@ class Game:
         for ship in self.players[(self.turn + 1) % 2].ships:
             if ship.alive:
                 return True
-        self.status['winner'] = self.turn % 2
+        self.status['winner'] = (self.turn + 1) % 2
         return False
 
 
