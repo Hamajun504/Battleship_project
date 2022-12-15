@@ -49,6 +49,20 @@ class View:
                                  (self.fields_pos[0][0] + cell[0] * self.field_size[0] // 10,
                                   self.fields_pos[0][1] + cell[1] * self.field_size[0] // 10,
                                   self.field_size[0] // 10, self.field_size[1] // 10))
+                if ship.cells[cell] == "dead":
+                    pygame.draw.line(self.screen, config.RED,
+                                     (self.fields_pos[0][0] + cell[0] * self.field_size[0] // 10,
+                                      self.fields_pos[0][1] + cell[1] * self.field_size[0] // 10),
+                                     (self.fields_pos[0][0] + (cell[0] + 1) * self.field_size[0] // 10,
+                                      self.fields_pos[0][1] + (cell[1] + 1) * self.field_size[1] // 10 + 1),
+                                     config.HIT_CROSS_LINE_WIDTH)
+                    pygame.draw.line(self.screen, config.RED,
+                                     (self.fields_pos[0][0] + (cell[0] + 1) * self.field_size[0] // 10,
+                                      self.fields_pos[0][1] + cell[1] * self.field_size[1] // 10),
+                                     (self.fields_pos[0][0] + cell[0] * self.field_size[0] // 10,
+                                      self.fields_pos[0][1] + (cell[1] + 1) * self.field_size[1] // 10),
+                                     config.HIT_CROSS_LINE_WIDTH)
+
 
     def draw_enemy_ships(self):
         for ship in self.players[(self.turn + 1) % 2].ships:
@@ -79,6 +93,11 @@ class View:
             pygame.draw.circle(self.screen, config.BLACK,
                                (self.fields_pos[1][0] + cell[0] * self.field_size[0] // 10 + self.field_size[0] // 20,
                                 self.fields_pos[1][1] + cell[1] * self.field_size[1] // 10 + self.field_size[1] // 20),
+                               config.SHOOT_TRACE_RADIUS)
+        for cell in self.players[(self.turn + 1) % 2].shoten_cells:
+            pygame.draw.circle(self.screen, config.BLACK,
+                               (self.fields_pos[0][0] + cell[0] * self.field_size[0] // 10 + self.field_size[0] // 20,
+                                self.fields_pos[0][1] + cell[1] * self.field_size[1] // 10 + self.field_size[1] // 20),
                                config.SHOOT_TRACE_RADIUS)
 
     def draw_numbers_and_letters(self):
