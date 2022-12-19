@@ -22,7 +22,7 @@ class View:
                              (self.field_size[0] * i // 10, 0),
                              (self.field_size[0] * i // 10, self.field_size[1]), 2)
 
-    def draw(self, status):
+    def draw(self, status: dict):
         if status['neutral_screen']:
             self.write_change_turn()
         elif status['game_ended']:
@@ -35,6 +35,7 @@ class View:
             self.draw_hit_cells()
             self.draw_enemy_ships()
             self.draw_numbers_and_letters()
+            self.write_turn_tips(status)
             if status['turn_ended']:
                 self.write_end_turn()
         pygame.display.update()
@@ -62,7 +63,6 @@ class View:
                                      (self.fields_pos[0][0] + cell[0] * self.field_size[0] // 10,
                                       self.fields_pos[0][1] + (cell[1] + 1) * self.field_size[1] // 10),
                                      config.HIT_CROSS_LINE_WIDTH)
-
 
     def draw_enemy_ships(self):
         for ship in self.players[(self.turn + 1) % 2].ships:
@@ -131,8 +131,30 @@ class View:
         self.screen.fill(config.WHITE)
         self.screen.blit(config.font_help_text.render(text_change_turn, False, config.BLACK), text_pos)
 
-    def write_win(self, status):
+    def write_win(self, status: dict):
         self.screen.fill(config.WHITE)
         text_win = 'Игрок ' + str(status['winner']) + ' выиграл'
         text_pos = (400, config.SCREEN_HEIGHT // 2)
         self.screen.blit(config.font_help_text.render(text_win, False, config.BLACK), text_pos)
+
+    def write_turn_tips(self, status: dict):
+        if self.turn <= 2:
+            text = "Разместите корабли"
+            text_pos = (config.SCREEN_WIDTH // 7, config.SCREEN_HEIGHT * 4 // 5)
+            self.screen.blit(config.font_help_text.render(text, False, config.BLACK), text_pos)
+            if not status["turn_ended"]:
+                text2 = "Нажмите Space для авторасстановки"
+                text2_pos = (config.SCREEN_WIDTH // 3,
+                             config.SCREEN_HEIGHT - (config.SCREEN_HEIGHT - config.SIDE - config.IDENT) // 2)
+                self.screen.blit(config.font_help_text.render(text2, False, config.BLACK), text2_pos)
+        else:
+            text = "Стреляйте!"
+            text_pos = (config.SCREEN_WIDTH * 2 // 3, config.SCREEN_HEIGHT * 4 // 5)
+            self.screen.blit(config.font_help_text.render(text, False, config.BLACK), text_pos)
+
+        if self.turn % 2 == 1:
+            player_text = f"Ход игрока 1"
+        else:
+            player_text = f"Ход игрока 2"
+        player_text_pos = (10, config.SCREEN_HEIGHT * 17 // 18)
+        self.screen.blit(config.font_help_text.render(player_text, False, config.BLACK), player_text_pos)

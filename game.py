@@ -5,7 +5,7 @@ import config
 
 
 class Game:
-    def __init__(self, screen):
+    def __init__(self, screen: pygame.Surface):
         self.screen = screen
         self.players = (player.Player(), player.Player())
         self.turn = 1
@@ -91,8 +91,6 @@ class Game:
                     self.status['hit'] = True
                     break
 
-
-
     def end_turn(self):
         self.status['turn_ended'] = True
 
@@ -107,8 +105,5 @@ class Game:
         for ship in self.players[(self.turn + 1) % 2].ships:
             if ship.alive:
                 return True
-        self.status['winner'] = (self.turn + 1) % 2
+        self.status['winner'] = self.turn % 2
         return False
-
-
-

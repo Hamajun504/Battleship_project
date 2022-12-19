@@ -2,6 +2,7 @@ import ships
 import config
 import random
 
+
 class Player:
     def __init__(self):
         self.ships = []
@@ -10,7 +11,7 @@ class Player:
         self.shoten_cells = []
         self.success_hit = False
 
-    def place(self, pos1, pos2):
+    def place(self, pos1: tuple[int, int], pos2: tuple[int, int]):
         """
         Размещает корабль с экранными координатами концов pos1, pos2
         """
@@ -21,7 +22,7 @@ class Player:
         if self.ship_correct_placing_check(x1, x2, y1, y2):
             self.ships.append(ships.Ship((x1, y1), (x2, y2)))
 
-    def ship_correct_placing_check(self, x1, x2, y1, y2):
+    def ship_correct_placing_check(self, x1: int, x2: int, y1: int, y2: int):
         if (x1 == x2 or y1 == y2) and \
                 (0 <= x1 < 10 and 0 <= x2 < 10 and 0 <= y1 < 10 and 0 <= y2 < 10):
             length = abs(x1 - x2) + abs(y1 - y2) + 1
@@ -29,7 +30,7 @@ class Player:
         else:
             return False
 
-    def check_size(self, length):
+    def check_size(self, length: int):
         """ проверяет, что можно поставить ещё корабли длины length """
         num = 0
         for ship in self.ships:
@@ -48,7 +49,7 @@ class Player:
             end = end and (num + length) >= 5
         return end
 
-    def shoot(self, pos):
+    def shoot(self, pos: tuple[int, int]):
         """ если координаты выстрела корректные "стреляет" и возвращает True, иначе возвращает False """
         x = (pos[0] - self.field_pos[1][0]) * 10 // self.field_shape[0]
         y = (pos[1] - self.field_pos[1][1]) * 10 // self.field_shape[1]
@@ -58,7 +59,7 @@ class Player:
         else:
             return False
 
-    def check_correct_shooting(self, x, y):
+    def check_correct_shooting(self, x: int, y: int):
         if 0 <= x < 10 and 0 <= y < 10 and (x, y) not in self.shoten_cells:
             return True
         else:
@@ -78,7 +79,7 @@ class Player:
                 if dead:
                     ship.alive = False
 
-    def check_position(self, x1, x2, y1, y2):
+    def check_position(self, x1: int, x2: int, y1: int, y2: int):
         """
         Возвращает True, если корабль с данными координатами концов (x1, y1), (x2, y2)
         не расположен слишком близко к другому кораблю
@@ -91,7 +92,7 @@ class Player:
                     correct *= 0
         return correct
 
-    def mark_cells_near_destroyed_ship(self, ships):
+    def mark_cells_near_destroyed_ship(self, ships: list[ships.Ship]):
         for ship in ships:
             if not ship.alive:
                 near_points = set()
@@ -104,7 +105,7 @@ class Player:
                     if cell not in self.shoten_cells:
                         self.shoten_cells.append(cell)
 
-    def auto_ship(self, n):
+    def auto_ship(self, n: int):
         desk = [(x, y) for x in range(10) for y in range(10)]
         random.shuffle(desk)
         for i in range(100):
